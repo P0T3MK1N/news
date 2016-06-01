@@ -1,0 +1,56 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>RSS Feeds Demonstration</title>
+
+<script type="text/javascript" src="http://www.google.com/jsapi">
+</script>
+
+<script type="text/javascript">
+google.load("feeds", "1")
+</script>
+
+<link href="xmpl.css" type="text/css" rel="stylesheet" />
+
+</head>
+
+<body>
+
+<h1>RSS Feeds Demonstration</h1>
+<div id="feed"></div>
+<!-- NPR Business RSS URL - http://www.npr.org/rss/rss.php?id=1006 -->
+
+<script type="text/javascript">
+var feedcontainer=document.getElementById("feed")
+var feedurl="http://www.npr.org/rss/rss.php?id=1006"
+var feedlimit=10
+var rssoutput="<h2>Latest NPR Business News:</h2><ul>"
+
+
+function rssfeedsetup(){
+var feedpointer=new google.feeds.Feed(feedurl)
+feedpointer.setNumEntries(feedlimit) 
+feedpointer.load(displayfeed) 
+}
+
+function displayfeed(result){
+if (!result.error){
+var thefeeds=result.feed.entries
+for (var i=0; i<thefeeds.length; i++)
+rssoutput+="<li><a href='" + thefeeds[i].link + "'>" + thefeeds[i].title + "</a></li>"
+rssoutput+="</ul>"
+feedcontainer.innerHTML=rssoutput
+}
+else
+alert("Error fetching feeds!")
+}
+
+window.onload=function(){
+rssfeedsetup()
+}
+
+</script>
+
+</body>
+</html>
